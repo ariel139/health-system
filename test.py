@@ -19,10 +19,7 @@ symptoms = df.iloc[:, 4:5].values
 
 # problems dictionery
 problems_dectinery = {
-    'problems' : []
 }
-problems_list = problems_dectinery['problems']
-duplicates = set()
 
 
 
@@ -35,39 +32,75 @@ def split_symptoms():
 
 split_symptoms()
 
-# returning the value0 a part
-def symptoms_data0():
-    for sym1 in range(0, len(symptoms)):
-        print(symptoms[sym1][0][0]) 
+
+
 # returning the value1 a part
-
-# def symptoms_data1(count_number_data0 = 0, symptoms_list_small):
-#     count_number_data0 = 0
-#     while count_number_data != len(symptoms):
-#         for sym1 in range(0, len(symptoms)):
-#             count_number_data +=1
-#             if  type(symptoms[sym1][1]) == list:
-#                symptoms_list_small.append(symptoms[sym1][1])
-#     return symptoms_list_small
-
-
+symptoms_list_small1 = []
+def symptoms_data1(symptoms_list_small,count_number_data1 = 0):
+    count_number_data1 = 0
+    while count_number_data1 != len(symptoms):
+        print('shit')
+        for sym1 in range(0, len(symptoms)): 
+            if  type(symptoms[sym1][0]) != list:
+               symptoms_list_small.append(symptoms[sym1][0])
+               count_number_data1 +=1
+    return symptoms_list_small
+symptoms_data0 = symptoms_data1(symptoms_list_small1)
 
 def symptoms_data2(symptoms_list_small, count_number_data1 = 0):
     count_number_data1 = 0
     while count_number_data1 != len(symptoms):
+                print('shit1')
         for sym1 in range(0, len(symptoms)):
-            count_number_data1 +=1
-            if  type(symptoms[sym1][0]) == list:
-               symptoms_list_small.append(symptoms[sym1][0][0])
-               symptoms_list_small.append(symptoms[sym1][0][1])
+            if type(symptoms[sym1][0]) == list:
+                for s in range(0,len(symptoms[sym1][0])):
+                    symptoms_list_small.append(symptoms[sym1][0][s])
+                    count_number_data1 +=1
+
     return symptoms_list_small
+symptoms_data1 = symptoms_data2(symptoms_list_small1)
+
+# adding the symptoms into a dict
+def compere_symptoms():
+    global count_number
+    for s in range(0, len(symptoms)):
+        # lists if statment
+        if symptoms[s][0][0] in symptoms_data1 or symptoms_data2 and len(symptoms[s][0]) >=2 and type(symptoms[s][0]) == list :
+
+            problems_dectinery[f'problem{count_number}'] = [[]]
+            for i in range(0, len(symptoms[s][0])):
+                problems_dectinery[f'problem{count_number}'][0].append(symptoms[s][0][i])
+            
+            problems_dectinery[f'problem{count_number}'].append(symptoms[s])
+            count_number = count_number + 1
+
+         # one value if statment       
+        if symptoms[s][0] in symptoms_data1 or symptoms_data2 and len(symptoms[s])==1 and type(symptoms[s]) != list:
+            problems_dectinery[f'problem{count_number}'] = [[]]
+            problems_dectinery[f'problem{count_number}'][0].append(symptoms[s][0])
+            count_number = count_number + 1
 
 
 
-# if len(symptoms[0][0]) == 1:
-#     print('goof')
-# else:
-#     print('shit')
-list1 = []
-sy = symptoms_data2(list1)
-print(sy)
+# Random disses func only for test
+def random_disses_func():
+    return random.choice(random_disses)
+
+
+
+
+# chking for dup do not using it for now!
+def chking_dup():
+    dupl = set()
+    for i in problems_dectinery[f'problem{count_number}']:
+        if problems_dectinery[f'problem{count_number}'].count(i) > 1:
+            dupl.add(i)
+        dupl = [* dupl]
+        for i in range(0, len(dupl)):
+            problems_dectinery[f'problem{count_number}'].remove(dupl[i])
+            pass
+
+
+
+compere_symptoms()
+print(problems_dectinery)

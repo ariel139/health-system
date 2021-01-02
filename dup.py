@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import time
 import random
-
+print('dsf')
 #random disses for test
 random_disses = ['Abscess', "Alzheimer's disease","Anthrax", "Appendicitis","Allergy","Arthritis","Aseptic meningitis","Asthma", "Astigmatism","Atherosclerosis"]
 
@@ -35,44 +35,54 @@ split_symptoms()
 
 
 # returning the value1 a part
-symptoms_list_small1 = []
-def symptoms_data1(symptoms_list_small,count_number_data1 = 0):
+big_list = []
+def symptoms_data(slist,count_number_data1 = 0, count_number_data2 = 0):
     count_number_data1 = 0
     while count_number_data1 != len(symptoms):
         for sym1 in range(0, len(symptoms)):
             count_number_data1 +=1
-            if  type(symptoms[sym1][0]) != list:
-               symptoms_list_small.append(symptoms[sym1][0])
-    return symptoms_list_small
-symptoms_data0 = symptoms_data1(symptoms_list_small1)
-
-def symptoms_data2(symptoms_list_small, count_number_data1 = 0):
-    count_number_data1 = 0
-    while count_number_data1 != len(symptoms):
+            if type(symptoms[sym1][0]) != list:
+               slist.append(symptoms[sym1][0])
+        break
+    count_number_data2 = 0
+    while count_number_data2 != len(symptoms):
+        count_number_data2 +=1
         for sym1 in range(0, len(symptoms)):
-            count_number_data1 +=1
+            count_number_data2 +=1
             if type(symptoms[sym1][0]) == list:
                 for s in range(0,len(symptoms[sym1][0])):
-                    symptoms_list_small.append(symptoms[sym1][0][s])
-    return symptoms_list_small
-symptoms_data1 = symptoms_data2(symptoms_list_small1)
+                    slist.append(symptoms[sym1][0][s])
+        break
 
+    return slist
+
+
+sym_data= symptoms_data(big_list)
+
+def final_list(sym_data):
+    for i in range(0, len(sym_data)):
+        if sym_data.count(sym_data[i]) ==1:
+            sym_data.remove(sym_data[i])
+    
+    return sym_data
+
+datalist = final_list(sym_data)
 # adding the symptoms into a dict
 def compere_symptoms():
     global count_number
     for s in range(0, len(symptoms)):
         # lists if statment
-        if symptoms[s][0][0] in symptoms_data1 or symptoms_data2 and len(symptoms[s][0]) >=2 and type(symptoms[s][0]) == list :
+        if symptoms[s][0][0] in datalist and len(symptoms[s][0]) >=2 and type(symptoms[s][0]) == list :
 
-            problems_dectinery[f'problem{count_number}'] = [[]]
-            for i in range(0,len(symptoms[s][0])):
-                problems_dectinery[f'problem{count_number}'].append(symptoms[s][0][i])
+            problems_dectinery[f'problem{count_number}'] = []
+
+            problems_dectinery[f'problem{count_number}'].append(symptoms[s][0])
             count_number = count_number + 1
 
          # one value if statment       
-        if symptoms[s][0] in symptoms_data1 or symptoms_data2 and len(symptoms[s])==1 and type(symptoms[s]) != list:
+        if symptoms[s][0] in datalist and len(symptoms[s])==1 and type(symptoms[s][0]) != list:
             problems_dectinery[f'problem{count_number}'] = [[]]
-            problems_dectinery[f'problem{count_number}'][0].append(symptoms[s][0][0])
+            problems_dectinery[f'problem{count_number}'][0].append(symptoms[s][0])
             count_number = count_number + 1
 
 
@@ -102,6 +112,5 @@ def chking_dup1():
             flipped[value] = [key] 
         else: 
             flipped[value].append(key) 
-
-compere_symptoms()
-print(problems_dectinery['problem0'][0])
+print('dsdfasdfs')
+print(datalist)
