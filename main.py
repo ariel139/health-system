@@ -1,11 +1,9 @@
 import pandas as pd
 import numpy as np
-import time
-import random
 
-#random disses for test
-random_disses = ['Abscess', "Alzheimer's disease","Anthrax", "Appendicitis","Allergy","Arthritis","Aseptic meningitis","Asthma", "Astigmatism","Atherosclerosis"]
+main_map_df = {'symptoms range time': None, 'Age range': None, 'Location':None, "background_diseases":[], 'symptoms':None, 'Number of pepole how complaind':None}
 
+func_count_number = 0
 # Data Frame
 df = pd.read_csv('data.csv')
 #count number for dictionery
@@ -17,73 +15,40 @@ Location = df.iloc[:, 2:3].values
 age = df.iloc[:, 3:4].values
 symptoms = df.iloc[:, 4:5].values
 
-# problems dictionery
-problems_dectinery = {
-    'problems' : []
-}
-problems_list = problems_dectinery['problems']
-duplicates = set()
 
+for sym in range(0, len(symptoms)):
+    if ',' in symptoms[sym][0]:
+        symptoms[sym][0] = symptoms[sym][0].split(',')
 
+data_list = []
+def list_data(data_list):
+    for i in range(len(symptoms)):
+        if type(symptoms[i][0]) == list:
+            data_list.append(symptoms[i][0])
+    return data_list
 
-# splits the symptoms to list
-def split_symptoms():
-    for sym in range(0, len(symptoms) ):
-        if ',' in symptoms[sym][0]:
-            symptoms[sym][0] = symptoms[sym][0].split(',')
-    return symptoms
+known_data_list = []
 
-split_symptoms()
+def known_list_data(known_data_list):
+    for i in range(len(symptoms)):
+        if type(symptoms[i][0]) == str:
+             known_data_list.append(symptoms[i][0])
+    return known_data_list
 
-# returning the value0 a part
-def symptoms_data0():
-    for sym1 in range(0, len(symptoms)):
-        return symptoms[sym1][0][0]
-# returning the value1 a part
+known_list_data(known_data_list)
+list_data(data_list)
 
-def symptoms_data1():
-    for sym1 in range(0, len(symptoms)):
-        return symptoms[sym1]
+symptoms_count_number = 0
+pepole_Symptos_List = []
+def detect_dissess(wanted_number,Symlist = pepole_Symptos_List):
+    global main_df
+    main_df = pd.DataFrame(data=main_map_df)
 
-symptoms_data3 = symptoms_data0()
-symptoms_data2 = symptoms_data1()
-
-# adding the symptoms into a dict
-def compere_symptoms():
-    for s in range(0, len(symptoms)):
-        if symptoms[s][0][0] or symptoms[s][0][0] == symptoms_data3 or symptoms_data2 :
-            if len(symptoms[s][0]) >= 2:
-                problems_dectinery[f'problem{count_number}'] = []
-                problems_dectinery[f'problem{count_number}'].append(symptoms[s][0])
-                problems_dectinery[f'problem{count_number}'].append(symptoms[s][0])
-                # problems_list.append(symptoms[s][0][0])
-                # problems_list.append(symptoms[s][0][1])
-                # print(problems_dectinery[f'problem{count_number}'])
-                
-        if symptoms[s] == symptoms_data2 or symptoms_data3:
-            if len(symptoms[s])==1 and type(symptoms[s][0]) != list:
-                problems_dectinery[f'problem{count_number}'].append(symptoms[s][0])
-
-# Random disses func only for test
-def random_disses_func():
-    return random.choice(random_disses)
-
-
-
-
-
-def chking_dup():
-    dupl = set()
-    for i in problems_dectinery[f'problem{count_number}']:
-        if problems_dectinery[f'problem{count_number}'].count(i) > 1:
-            dupl.add(i)
-        dupl = [* dupl]
-        for i in range(0, len(dupl)):
-            problems_dectinery[f'problem{count_number}'].remove(dupl[i])
-        print(problems_list)
-
-
-compere_symptoms()
-print(problems_dectinery['problem0'])
-
-
+    for i in range(len(data_list)):
+        if data_list.count(data_list[i]) >= int(wanted_number):
+            data_count = data_list.count(data_list[i])
+            for s in range(len(known_data_list)):
+                data_count = known_data_list.count(known_data_list[s]) + data_count
+        main_df = main_df.append({'Number of pepole how complaind': data_count}, ignore_index=True)
+detect_dissess(2)
+print(main_df)

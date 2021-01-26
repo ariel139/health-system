@@ -60,9 +60,11 @@ def symptoms_data(slist,count_number_data1 = 0, count_number_data2 = 0):
 sym_data= symptoms_data(big_list)
 
 def final_list(sym_data):
-    for i in range(0, len(sym_data)):
-        if sym_data.count(sym_data[i]) ==1:
-            sym_data.remove(sym_data[i])
+    while True:
+        for i in sym_data:
+            if sym_data.count(sym_data[i]) <1:
+                sym_data.remove(sym_data[i])
+        break
     
     return sym_data
 
@@ -113,4 +115,4 @@ def chking_dup1():
         else: 
             flipped[value].append(key) 
 print('dsdfasdfs')
-print(datalist)
+print(compere_symptoms())
