@@ -40,6 +40,8 @@ list_data(data_list)
 
 symptoms_count_number = 0
 pepole_Symptos_List = []
+
+# On this function after adding all the argymwnts must check the number of symptoms complaind
 def detect_dissess(wanted_number,Symlist = pepole_Symptos_List):
     global main_df
     main_df = pd.DataFrame(data=main_map_df)
@@ -50,5 +52,5 @@ def detect_dissess(wanted_number,Symlist = pepole_Symptos_List):
             for s in range(len(known_data_list)):
                 data_count = known_data_list.count(known_data_list[s]) + data_count
         main_df = main_df.append({'Number of pepole how complaind': data_count}, ignore_index=True)
-detect_dissess(2)
+
 print(main_df)
